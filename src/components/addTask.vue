@@ -1,7 +1,9 @@
 <script setup>
+import axios from 'axios'
 import { ref, reactive, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from 'vuex';
+
 
 const store = useStore();
 const router = useRouter();
@@ -66,8 +68,12 @@ function submitForm() {
     tage: tage.val,
   };
 
-  store.dispatch('addTask',enteredValue);
-
+  //store.dispatch('addTask',enteredValue);
+  axios
+    .post('https://todo-list-1f086-default-rtdb.firebaseio.com/task-list.json',enteredValue)
+    .then(() => {
+      store.dispatch('fetchText');
+    })
   router.push("/");
 }
 </script>
